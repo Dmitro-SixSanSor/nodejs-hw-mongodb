@@ -9,7 +9,7 @@ router.get('/', async (req, res) => {
     res.status(200).json({
       status: 200,
       message: 'Successfully found contacts!',
-      data: [],
+      data: contacts,
     });
   } catch (err) {
     res.status(500).json({ message: 'Server error', error: err.message });
