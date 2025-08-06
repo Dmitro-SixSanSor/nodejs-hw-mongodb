@@ -8,7 +8,7 @@ import {
 } from '../services/contacts.js';
 
 // GET /contacts
-export const getAllContacts = async (req, res, next) => {
+export const getAllContactsController = async (req, res, next) => {
   const contacts = await getAllContacts();
   res.status(200).json({
     status: 200,
@@ -18,7 +18,7 @@ export const getAllContacts = async (req, res, next) => {
 };
 
 // GET /contacts/:id
-export const getContactById = async (req, res, next) => {
+export const getContactByIdController = async (req, res, next) => {
   const contact = await getContactById(req.params.contactId);
   if (!contact) throw createError(404, 'Contact not found');
 
@@ -30,7 +30,7 @@ export const getContactById = async (req, res, next) => {
 };
 
 // POST /contacts
-export const createContact = async (req, res, next) => {
+export const createContactController = async (req, res, next) => {
   const newContact = await createContact(req.body);
   res.status(201).json({
     status: 201,
@@ -40,7 +40,7 @@ export const createContact = async (req, res, next) => {
 };
 
 // PATCH /contacts/:id
-export const updateContact = async (req, res, next) => {
+export const updateContactController = async (req, res, next) => {
   const updated = await updateContact(req.params.contactId, req.body);
   if (!updated) throw createError(404, 'Contact not found');
 
@@ -52,7 +52,7 @@ export const updateContact = async (req, res, next) => {
 };
 
 // DELETE /contacts/:id
-export const deleteContact = async (req, res, next) => {
+export const deleteContactController = async (req, res, next) => {
   const result = await deleteContact(req.params.contactId);
   if (!result) throw createError(404, 'Contact not found');
 

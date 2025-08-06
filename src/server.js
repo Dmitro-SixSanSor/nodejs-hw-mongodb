@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import contactsRouter from './controllers/contactsController.js';
+import contactsRouter from './routers/contacts.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
 
@@ -12,9 +12,8 @@ export const setupServer = () => {
 
   app.use('/contacts', contactsRouter);
 
-  // Error handler
+  // app.use('*', notFoundHandler);
   app.use(errorHandler);
-  app.use('*', notFoundHandler);
 
   const PORT = process.env.PORT || 3000;
   app.listen(PORT, () => {
