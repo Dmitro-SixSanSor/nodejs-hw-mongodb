@@ -1,4 +1,3 @@
-import express from 'express';
 import createError from 'http-errors';
 import {
   getAllContacts,
@@ -8,74 +7,54 @@ import {
   deleteContact,
 } from '../services/contacts.js';
 
-const router = express.Router();
-
 // GET /contacts
-router.get('/', async (req, res, next) => {
-  try {
-    const contacts = await getAllContacts();
-    res.status(200).json({ status: 200, message: 'Successfully found contacts!', data: contacts });
-  } catch (err) {
-    next(err);
-  }
-});
+export const getAllContacts = async (req, res, next) => {
+  const contacts = await getAllContacts();
+  res.status(200).json({
+    status: 200,
+    message: 'Successfully found contacts!',
+    data: contacts,
+  });
+};
 
 // GET /contacts/:id
-router.get('/:contactId', async (req, res, next) => {
-  try {
-    const contact = await getContactById(req.params.contactId);
-    if (!contact) throw createError(404, 'Contact not found');
+export const getContactById = async (req, res, next) => {
+  const contact = await getContactById(req.params.contactId);
+  if (!contact) throw createError(404, 'Contact not found');
 
-    res.status(200).json({
-      status: 200,
-      message: `Successfully found contact with id ${req.params.contactId}!`,
-      data: contact,
-    });
-  } catch (err) {
-    next(err);
-  }
-});
+  res.status(200).json({
+    status: 200,
+    message: `Successfully found contact with id ${req.params.contactId}!`,
+    data: contact,
+  });
+};
 
 // POST /contacts
-router.post('/', async (req, res, next) => {
-  try {
-    const newContact = await createContact(req.body);
-    res.status(201).json({
-      status: 201,
-      message: 'Successfully created a contact!',
-      data: newContact,
-    });
-  } catch (err) {
-    next(err);
-  }
-});
+export const createContact = async (req, res, next) => {
+  const newContact = await createContact(req.body);
+  res.status(201).json({
+    status: 201,
+    message: 'Successfully created a contact!',
+    data: newContact,
+  });
+};
 
 // PATCH /contacts/:id
-router.patch('/:contactId', async (req, res, next) => {
-  try {
-    const updated = await updateContact(req.params.contactId, req.body);
-    if (!updated) throw createError(404, 'Contact not found');
+export const updateContact = async (req, res, next) => {
+  const updated = await updateContact(req.params.contactId, req.body);
+  if (!updated) throw createError(404, 'Contact not found');
 
-    res.status(200).json({
-      status: 200,
-      message: 'Successfully patched a contact!',
-      data: updated,
-    });
-  } catch (err) {
-    next(err);
-  }
-});
+  res.status(200).json({
+    status: 200,
+    message: 'Successfully patched a contact!',
+    data: updated,
+  });
+};
 
 // DELETE /contacts/:id
-router.delete('/:contactId', async (req, res, next) => {
-  try {
-    const result = await deleteContact(req.params.contactId);
-    if (!result) throw createError(404, 'Contact not found');
+export const deleteContact = async (req, res, next) => {
+  const result = await deleteContact(req.params.contactId);
+  if (!result) throw createError(404, 'Contact not found');
 
-    res.status(204).send();
-  } catch (err) {
-    next(err);
-  }
-});
-
-export default router;
+  res.status(204).send();
+};
