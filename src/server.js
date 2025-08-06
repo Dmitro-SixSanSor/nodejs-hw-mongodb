@@ -12,7 +12,9 @@ export const setupServer = () => {
 
   app.use('/contacts', contactsRouter);
 
-  // app.use('*', notFoundHandler);
+  app.use((req, res) => {
+    res.status(404).json({ message: 'Not found' });
+  });
   app.use(errorHandler);
 
   const PORT = process.env.PORT || 3000;
