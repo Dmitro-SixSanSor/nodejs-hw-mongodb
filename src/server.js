@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import contactsRouter from './nodejs-hw-mongodb-hw3-crud/src/routers/contacts.js';
+import contactsRouter from './routers/contacts.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
 
