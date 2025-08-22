@@ -13,9 +13,10 @@ import {
   createContactSchema,
   updateContactSchema,
 } from '../validation/contactValidation.js';
+import { authenticate } from '../middlewares/authenticate.js';
 
 const router = Router();
-
+router.use(authenticate);
 router.get('/', ctrlWrapper(getAllContactsController));
 router.get('/:contactId', isValidId, ctrlWrapper(getContactByIdController));
 router.post(
