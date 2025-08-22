@@ -16,12 +16,14 @@ export const getAllContactsController = async (req, res, next) => {
     sortOrder = 'asc',
   } = req.query;
 
+  const userId = req.user._id;
   const { data, totalItems, totalPages, hasPreviousPage, hasNextPage } =
     await getAllContacts({
       page: parseInt(page),
       perPage: parseInt(perPage),
       sortBy,
       sortOrder,
+      userId,
     });
 
   res.status(200).json({
@@ -41,7 +43,8 @@ export const getAllContactsController = async (req, res, next) => {
 
 // GET /contacts/:id
 export const getContactByIdController = async (req, res, next) => {
-  const contact = await getContactById(req.params.contactId);
+  const userId = req.user._id;
+  const contact = await getContactById(req.params.contactId, userId);
   if (!contact) throw createError(404, 'Contact not found');
 
   res.status(200).json({
@@ -53,7 +56,8 @@ export const getContactByIdController = async (req, res, next) => {
 
 // POST /contacts
 export const createContactController = async (req, res, next) => {
-  const newContact = await createContact(req.body);
+  const userId = req.user._id;
+  const newContact = await createContact(req.body, userId);
   res.status(201).json({
     status: 201,
     message: 'Successfully created a contact!',
@@ -63,7 +67,8 @@ export const createContactController = async (req, res, next) => {
 
 // PATCH /contacts/:id
 export const updateContactController = async (req, res, next) => {
-  const updated = await updateContact(req.params.contactId, req.body);
+  const userId = req.user._id;
+  const updated = await updateContact(req.params.contactId, req.body, userId);
   if (!updated) throw createError(404, 'Contact not found');
 
   res.status(200).json({
@@ -75,7 +80,8 @@ export const updateContactController = async (req, res, next) => {
 
 // DELETE /contacts/:id
 export const deleteContactController = async (req, res, next) => {
-  const result = await deleteContact(req.params.contactId);
+  const userId = req.user._id;
+  const result = await deleteContact(req.params.contactId, userId);
   if (!result) throw createError(404, 'Contact not found');
 
   res.status(204).send();
