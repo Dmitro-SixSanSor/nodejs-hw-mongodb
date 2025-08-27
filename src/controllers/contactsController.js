@@ -77,7 +77,16 @@ export const createContactController = async (req, res, next) => {
 // PATCH /contacts/:id
 export const updateContactController = async (req, res, next) => {
   const userId = req.user._id;
-  const updated = await updateContact(req.params.contactId, req.body, userId);
+  const photo = req.file;
+  let photoUrl;
+  if (photo) {
+    photoUrl = await saveFileToCloudinary(photo);
+  }
+  const updated = await updateContact(
+    req.params.contactId,
+    { ...req.body, photo: photoUrl },
+    userId,
+  );
   if (!updated) throw createError(404, 'Contact not found');
 
   res.status(200).json({
