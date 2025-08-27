@@ -35,7 +35,7 @@ export const loginUser = async ({ email, password }) => {
   const ok = await bcrypt.compare(password, user.password);
   if (!ok) throw createError(401, 'Invalid credentials');
 
-  await Session.deleteMany({ userId: user._id });
+  await Session.deleteOne({ userId: user._id });
 
   const { accessToken, refreshToken } = signTokens(user._id);
   const now = Date.now();

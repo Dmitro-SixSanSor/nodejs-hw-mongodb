@@ -6,6 +6,7 @@ import {
   updateContact,
   deleteContact,
 } from '../services/contacts.js';
+import { saveFileToCloudinary } from '../utils/saveFileToCloudinary.js';
 
 // GET /contacts (pagination + sorting)
 export const getAllContactsController = async (req, res, next) => {
@@ -57,7 +58,15 @@ export const getContactByIdController = async (req, res, next) => {
 // POST /contacts
 export const createContactController = async (req, res, next) => {
   const userId = req.user._id;
-  const newContact = await createContact(req.body, userId);
+  const photo = req.file;
+  let photoUrl;
+  if (photo) {
+    photoUrl = await saveFileToCloudinary(photo);
+  }
+  const newContact = await createContact(
+    { ...req.body, photo: photoUrl },
+    userId,
+  );
   res.status(201).json({
     status: 201,
     message: 'Successfully created a contact!',
